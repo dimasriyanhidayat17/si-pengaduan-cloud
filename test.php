@@ -1,3 +1,1 @@
-<?php
-berhasil
-?>
+<?php echo "PHP OK"; ?>
