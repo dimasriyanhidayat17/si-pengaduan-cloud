@@ -1,23 +1,16 @@
 <?php
-$url = getenv("DATABASE_URL");
 
-if (!$url) {
-    die("❌ DATABASE_URL belum kebaca");
-}
+$host = getenv("MYSQLHOST");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
+$dbname = getenv("MYSQLDATABASE");
+$port = getenv("MYSQLPORT");
 
-$db = parse_url($url);
-
-$host = $db["host"];
-$user = $db["user"];
-$pass = $db["pass"];
-$name = ltrim($db["path"], "/");
-$port = $db["port"];
-
-$conn = new mysqli($host, $user, $pass, $name, $port);
+$conn = new mysqli($host, $user, $pass, $dbname, $port);
 
 if ($conn->connect_error) {
-    die("❌ Gagal konek DB: " . $conn->connect_error);
+    die("❌ Koneksi gagal: " . $conn->connect_error);
 }
 
-echo "✅ DATABASE Railway berhasil terhubung!";
+echo "✅ Database Railway berhasil terkoneksi!";
 ?>
