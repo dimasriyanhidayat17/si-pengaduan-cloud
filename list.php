@@ -42,7 +42,11 @@ $data = $stmt->fetchAll();
                     <td><?= $no++ ?></td>
                     <td><?= htmlspecialchars($row['nama']) ?></td>
                     <td><?= htmlspecialchars($row['isi']) ?></td>
-                    <td><?= date("d-m-Y H:i", strtotime($row['created_at'])) ?></td>
+                  if (!empty($row['created_at'])) {
+    echo date("d-m-Y H:i", strtotime($row['created_at']));
+} else {
+    echo "-";
+}
 
                 </tr>
             <?php endforeach; ?>
@@ -57,5 +61,6 @@ $data = $stmt->fetchAll();
 
 </body>
 </html>
+
 
 
