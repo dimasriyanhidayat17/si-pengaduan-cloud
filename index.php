@@ -1,21 +1,30 @@
 <?php
 require_once "config/database.php";
 
+$success = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    // Ambil input dari form
+    $nama = $_POST['nama'];
+    $isi  = $_POST['isi'];
+
+    // Simpan ke database (tanpa tanggal)
     $stmt = $pdo->prepare(
-  "INSERT INTO pengaduan (nama, isi, created_at)
-   VALUES (?, ?, NOW())"
-);
-$stmt->execute([$nama, $isi]);
+        "INSERT INTO pengaduan (nama, isi)
+         VALUES (?, ?)"
+    );
+
+    $stmt->execute([$nama, $isi]);
 
     $success = "✅ Pengaduan berhasil dikirim!";
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <title>Input Pengaduan</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -33,7 +42,11 @@ $stmt->execute([$nama, $isi]);
 <div class="container">
     <h2>Input Pengaduan</h2>
 
-    <?php if (!empty($success)) echo "<p style='color:lime;'>$success</p>"; ?>
+    <?php if (!empty($success)) : ?>
+        <p style="color:lime; font-weight:bold;">
+            <?= $success ?>
+        </p>
+    <?php endif; ?>
 
     <form method="post">
         <label>Nama</label>
@@ -48,4 +61,3 @@ $stmt->execute([$nama, $isi]);
 
 </body>
 </html>
-
