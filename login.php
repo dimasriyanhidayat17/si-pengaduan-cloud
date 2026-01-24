@@ -14,7 +14,7 @@ if (isset($_POST['login'])) {
 
     if ($admin && password_verify($password, $admin['password'])) {
         $_SESSION['admin'] = $admin['username'];
-        header("Location: dashboard.php");
+        header("Location: index.php");
         exit;
     } else {
         echo "Login gagal!";
@@ -46,4 +46,5 @@ if (isset($_POST['login'])) {
 
 </body>
 </html>
+
 
