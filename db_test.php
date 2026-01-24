@@ -1,16 +1,17 @@
 <?php
+try {
+    $host = getenv("MYSQLHOST");
+    $db   = getenv("MYSQLDATABASE");
+    $user = getenv("MYSQLUSER");
+    $pass = getenv("MYSQLPASSWORD");
+    $port = getenv("MYSQLPORT");
 
-$host = getenv("MYSQLHOST");
-$user = getenv("MYSQLUSER");
-$pass = getenv("MYSQLPASSWORD");
-$dbname = getenv("MYSQLDATABASE");
-$port = getenv("MYSQLPORT");
+    $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
-$conn = new mysqli($host, $user, $pass, $dbname, $port);
+    $pdo = new PDO($dsn, $user, $pass);
 
-if ($conn->connect_error) {
-    die("❌ Koneksi gagal: " . $conn->connect_error);
+    echo "✅ Database Railway berhasil terkoneksi!";
+} catch (Exception $e) {
+    echo "❌ Error: " . $e->getMessage();
 }
-
-echo "✅ Database Railway berhasil terkoneksi!";
 ?>
