@@ -1,21 +1,27 @@
 <?php
 session_start();
-include "config/database.php";
+require_once "config/database.php";
 
-if (isset($_POST['username'])) {
-    $u = $_POST['username'];
-    $p = md5($_POST['password']);
+if (isset($_POST['login'])) {
 
-    $q = mysqli_query($conn, "SELECT * FROM admin WHERE username='$u' AND password='$p'");
-    if (mysqli_num_rows($q) > 0) {
-        $_SESSION['admin'] = $u;
-        header("Location: list.php");
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $stmt = $pdo->prepare("SELECT * FROM admin WHERE username=?");
+    $stmt->execute([$username]);
+
+    $admin = $stmt->fetch();
+
+    if ($admin && password_verify($password, $admin['password'])) {
+        $_SESSION['admin'] = $admin['username'];
+        header("Location: dashboard.php");
         exit;
     } else {
-        $error = "Login gagal";
+        echo "Login gagal!";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,3 +46,4 @@ if (isset($_POST['username'])) {
 
 </body>
 </html>
+
