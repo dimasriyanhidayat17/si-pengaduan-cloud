@@ -1,13 +1,23 @@
 <?php
+
 $host = getenv("MYSQLHOST");
 $user = getenv("MYSQLUSER");
 $pass = getenv("MYSQLPASSWORD");
 $db   = getenv("MYSQLDATABASE");
 $port = getenv("MYSQLPORT");
 
-$conn = new mysqli($host, $user, $pass, $db, $port);
+try {
+    $pdo = new PDO(
+        "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4",
+        $user,
+        $pass,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]
+    );
 
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
+    echo "✅ Database Railway Connected!";
+
+} catch (PDOException $e) {
+    die("❌ DB Error: " . $e->getMessage());
 }
-?>
