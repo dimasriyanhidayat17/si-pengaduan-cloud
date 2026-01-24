@@ -15,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($admin && password_verify($password, $admin['password'])) {
 
         $_SESSION['admin'] = $admin['username'];
-
         header("Location: index.php");
         exit;
 
@@ -51,4 +50,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
-
