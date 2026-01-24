@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $_SESSION['admin'] = $admin['username'];
 
-        header("Location: dashboard.php");
+        header("Location: index.php");
         exit;
 
     } else {
@@ -51,3 +51,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
+
