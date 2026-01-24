@@ -1,16 +1,20 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['admin'])) {
+    header("Location: login.php");
+    exit;
+}
+
 require_once "config/database.php";
 
-// Ambil semua data pengaduan
 $stmt = $pdo->query("SELECT * FROM pengaduan ORDER BY id DESC");
 $data = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Data Pengaduan</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -36,7 +40,7 @@ $data = $stmt->fetchAll();
         </tr>
 
         <?php if (count($data) > 0): ?>
-            <?php $no = 1; foreach ($data as $row): ?>
+            <?php $no=1; foreach ($data as $row): ?>
                 <tr>
                     <td><?= $no++ ?></td>
                     <td><?= htmlspecialchars($row['nama']) ?></td>
@@ -48,8 +52,8 @@ $data = $stmt->fetchAll();
                 <td colspan="3" align="center">Belum ada pengaduan masuk</td>
             </tr>
         <?php endif; ?>
-
     </table>
+
 </div>
 
 </body>
