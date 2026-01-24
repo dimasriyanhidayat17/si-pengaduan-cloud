@@ -1,23 +1,23 @@
 <?php
+$url = getenv("DATABASE_URL");
 
-$host = getenv("MYSQLHOST");
-$user = getenv("MYSQLUSER");
-$pass = getenv("MYSQLPASSWORD");
-$db   = getenv("MYSQLDATABASE");
-$port = getenv("MYSQLPORT");
+$db = parse_url($url);
+
+$host = $db["host"];
+$user = $db["user"];
+$pass = $db["pass"];
+$port = $db["port"];
+$name = ltrim($db["path"], "/");
 
 try {
     $pdo = new PDO(
-        "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4",
+        "mysql:host=$host;port=$port;dbname=$name",
         $user,
-        $pass,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]
+        $pass
     );
-
-    echo "✅ Database Railway Connected!";
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 } catch (PDOException $e) {
-    die("❌ DB Error: " . $e->getMessage());
+    die("DB Error: " . $e->getMessage());
 }
+?>
