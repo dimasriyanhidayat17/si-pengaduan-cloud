@@ -1,7 +1,13 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "pengaduan_db");
+$host = getenv("MYSQLHOST");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
+$db   = getenv("MYSQLDATABASE");
+$port = getenv("MYSQLPORT");
 
-if (!$conn) {
-    die("Koneksi gagal: " . mysqli_connect_error());
+$conn = new mysqli($host, $user, $pass, $db, $port);
+
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
 ?>
