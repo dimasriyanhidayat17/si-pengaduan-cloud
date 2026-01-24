@@ -3,11 +3,11 @@ require_once "config/database.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $nama = $_POST['nama'];
-    $isi  = $_POST['isi'];
-
-    $stmt = $pdo->prepare("INSERT INTO pengaduan (nama, isi) VALUES (?, ?)");
-    $stmt->execute([$nama, $isi]);
+    $stmt = $pdo->prepare(
+  "INSERT INTO pengaduan (nama, isi, created_at)
+   VALUES (?, ?, NOW())"
+);
+$stmt->execute([$nama, $isi]);
 
     $success = "✅ Pengaduan berhasil dikirim!";
 }
@@ -48,3 +48,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
+
