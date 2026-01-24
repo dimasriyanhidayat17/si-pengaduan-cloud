@@ -1,6 +1,5 @@
 <?php
 $url = getenv("DATABASE_URL");
-
 $db = parse_url($url);
 
 $host = $db["host"];
@@ -11,10 +10,11 @@ $name = ltrim($db["path"], "/");
 
 try {
     $pdo = new PDO(
-        "mysql:host=$host;port=$port;dbname=$name",
+        "mysql:host=$host;port=$port;dbname=$name;charset=utf8",
         $user,
         $pass
     );
+
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 } catch (PDOException $e) {
