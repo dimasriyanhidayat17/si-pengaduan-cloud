@@ -1,16 +1,17 @@
+<?php
 require_once "config/database.php";
 
-if (isset($_POST['kirim'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $nama   = $_POST['nama'];
-    $isi    = $_POST['isi'];
+    $nama = $_POST['nama'];
+    $isi  = $_POST['isi'];
 
     $stmt = $pdo->prepare("INSERT INTO pengaduan (nama, isi) VALUES (?, ?)");
     $stmt->execute([$nama, $isi]);
 
-    echo "✅ Pengaduan berhasil dikirim!";
+    $success = "✅ Pengaduan berhasil dikirim!";
 }
-
+?>
 
 <!DOCTYPE html>
 <html>
@@ -32,6 +33,8 @@ if (isset($_POST['kirim'])) {
 <div class="container">
     <h2>Input Pengaduan</h2>
 
+    <?php if (!empty($success)) echo "<p style='color:lime;'>$success</p>"; ?>
+
     <form method="post">
         <label>Nama</label>
         <input type="text" name="nama" required>
@@ -45,4 +48,3 @@ if (isset($_POST['kirim'])) {
 
 </body>
 </html>
-
