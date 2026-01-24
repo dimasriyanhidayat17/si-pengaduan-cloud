@@ -1,47 +1,58 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) {
-    header("Location: login.php");
-    exit;
-}
-include "config/database.php";
-$data = mysqli_query($conn, "SELECT * FROM pengaduan ORDER BY tanggal DESC");
+require_once "config/database.php";
+
+// Ambil semua data pengaduan
+$stmt = $pdo->query("SELECT * FROM pengaduan ORDER BY id DESC");
+$data = $stmt->fetchAll();
 ?>
 
-
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <title>Data Pengaduan</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
 <div class="navbar">
-    <h1>ADMIN PANEL</h1>
+    <h1>SI PENGADUAN</h1>
     <div>
         <a href="index.php">Input</a>
+        <a href="list.php">Data</a>
         <a href="logout.php">Logout</a>
     </div>
 </div>
 
-<table>
-    <tr>
-        <th>No</th>
-        <th>Nama</th>
-        <th>Isi Pengaduan</th>
-        <th>Tanggal</th>
-    </tr>
+<div class="container">
+    <h2>Daftar Pengaduan Masuk</h2>
 
-    <?php $no=1; while($row=mysqli_fetch_assoc($data)) { ?>
-    <tr>
-        <td><?= $no++ ?></td>
-        <td><?= $row['nama'] ?></td>
-        <td><?= $row['isi'] ?></td>
-        <td><?= $row['tanggal'] ?></td>
-    </tr>
-    <?php } ?>
-</table>
+    <table border="1" width="100%" cellpadding="10">
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Isi Pengaduan</th>
+            <th>Tanggal</th>
+        </tr>
+
+        <?php if (count($data) > 0): ?>
+            <?php $no = 1; foreach ($data as $row): ?>
+                <tr>
+                    <td><?= $no++ ?></td>
+                    <td><?= htmlspecialchars($row['nama']) ?></td>
+                    <td><?= htmlspecialchars($row['isi']) ?></td>
+                    <td><?= $row['created_at'] ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="4" align="center">Belum ada pengaduan masuk</td>
+            </tr>
+        <?php endif; ?>
+
+    </table>
+</div>
 
 </body>
 </html>
