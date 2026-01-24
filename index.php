@@ -1,12 +1,16 @@
-<?php
-include "config/database.php";
+require_once "config/database.php";
 
-if (isset($_POST['nama'])) {
-    $nama = $_POST['nama'];
-    $isi  = $_POST['isi'];
-    mysqli_query($conn, "INSERT INTO pengaduan (nama, isi) VALUES ('$nama', '$isi')");
+if (isset($_POST['kirim'])) {
+
+    $nama   = $_POST['nama'];
+    $isi    = $_POST['isi'];
+
+    $stmt = $pdo->prepare("INSERT INTO pengaduan (nama, isi) VALUES (?, ?)");
+    $stmt->execute([$nama, $isi]);
+
+    echo "✅ Pengaduan berhasil dikirim!";
 }
-?>
+
 
 <!DOCTYPE html>
 <html>
@@ -41,3 +45,4 @@ if (isset($_POST['nama'])) {
 
 </body>
 </html>
+
