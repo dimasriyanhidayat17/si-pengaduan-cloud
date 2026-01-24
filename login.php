@@ -2,7 +2,7 @@
 session_start();
 require_once "config/database.php";
 
-if (isset($_POST['login'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -13,11 +13,14 @@ if (isset($_POST['login'])) {
     $admin = $stmt->fetch();
 
     if ($admin && password_verify($password, $admin['password'])) {
+
         $_SESSION['admin'] = $admin['username'];
-        header("Location: index.php");
+
+        header("Location: dashboard.php");
         exit;
+
     } else {
-        echo "Login gagal!";
+        $error = "❌ Username atau Password salah!";
     }
 }
 ?>
@@ -37,6 +40,8 @@ if (isset($_POST['login'])) {
 <div class="container">
     <h2>Login Admin</h2>
 
+    <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
+
     <form method="post">
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
@@ -46,5 +51,3 @@ if (isset($_POST['login'])) {
 
 </body>
 </html>
-
-
