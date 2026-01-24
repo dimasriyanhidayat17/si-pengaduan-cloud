@@ -33,7 +33,6 @@ $data = $stmt->fetchAll();
             <th>No</th>
             <th>Nama</th>
             <th>Isi Pengaduan</th>
-            <th>Tanggal</th>
         </tr>
 
         <?php if (count($data) > 0): ?>
@@ -42,17 +41,11 @@ $data = $stmt->fetchAll();
                     <td><?= $no++ ?></td>
                     <td><?= htmlspecialchars($row['nama']) ?></td>
                     <td><?= htmlspecialchars($row['isi']) ?></td>
-                  if (!empty($row['created_at'])) {
-    echo date("d-m-Y H:i", strtotime($row['created_at']));
-} else {
-    echo "-";
-}
-
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="4" align="center">Belum ada pengaduan masuk</td>
+                <td colspan="3" align="center">Belum ada pengaduan masuk</td>
             </tr>
         <?php endif; ?>
 
@@ -61,6 +54,3 @@ $data = $stmt->fetchAll();
 
 </body>
 </html>
-
-
-
