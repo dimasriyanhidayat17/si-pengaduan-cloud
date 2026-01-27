@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['admin'])) {
+/* ✅ Proteksi halaman: hanya mahasiswa boleh input */
+if (!isset($_SESSION['login']) || $_SESSION['role'] != 'mahasiswa') {
     header("Location: login.php");
     exit;
 }
@@ -10,6 +11,7 @@ require_once "config/database.php";
 
 $success = "";
 
+/* ✅ Proses kirim pengaduan */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $nama = $_POST['nama'];
@@ -42,7 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <h2>Input Pengaduan</h2>
 
-    <?php if (!empty($success)) echo "<p style='color:lime;'>$success</p>"; ?>
+    <?php if (!empty($success)) : ?>
+        <p style="color:lime;"><?= $success ?></p>
+    <?php endif; ?>
 
     <form method="post">
         <label>Nama</label>
