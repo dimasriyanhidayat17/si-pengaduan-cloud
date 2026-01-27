@@ -32,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<div class="navbar">
-    <h1>SI PENGADUAN</h1>
+<?php include "navbar.php"; ?>
+
     <div>
         <a href="index.php">Input</a>
         <a href="list.php">Data</a>
@@ -61,3 +61,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
+
