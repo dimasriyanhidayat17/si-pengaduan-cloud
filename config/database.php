@@ -1,23 +1,17 @@
 <?php
-$url = getenv("DATABASE_URL");
-$db = parse_url($url);
-
-$host = $db["host"];
-$user = $db["user"];
-$pass = $db["pass"];
-$port = $db["port"];
-$name = ltrim($db["path"], "/");
+$host = getenv("MYSQLHOST");
+$db   = getenv("MYSQLDATABASE");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
+$port = getenv("MYSQLPORT");
 
 try {
     $pdo = new PDO(
-        "mysql:host=$host;port=$port;dbname=$name;charset=utf8",
+        "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
         $user,
-        $pass
+        $pass,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
-
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 } catch (PDOException $e) {
-    die("DB Error: " . $e->getMessage());
+    die("Koneksi database gagal");
 }
-?>
