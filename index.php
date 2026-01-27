@@ -1,19 +1,9 @@
 <?php
-session_start();
-
-/* ✅ Proteksi halaman: hanya mahasiswa boleh input */
-if (!isset($_SESSION['login']) || $_SESSION['role'] != 'mahasiswa') {
-    header("Location: login.php");
-    exit;
-}
-
 require_once "config/database.php";
 
 $success = "";
 
-/* ✅ Proses kirim pengaduan */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $nama = $_POST['nama'];
     $isi  = $_POST['isi'];
 
@@ -23,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $success = "✅ Pengaduan berhasil dikirim!";
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,19 +21,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<?php include "navbar.php"; ?>
-
+<div class="navbar">
+    <h1>SI PENGADUAN</h1>
     <div>
-        <a href="index.php">Input</a>
-        <a href="list.php">Data</a>
-        <a href="logout.php">Logout</a>
+        <a href="login.php">Login Admin</a>
     </div>
 </div>
 
 <div class="container">
     <h2>Input Pengaduan</h2>
 
-    <?php if (!empty($success)) : ?>
+    <?php if ($success): ?>
         <p style="color:lime;"><?= $success ?></p>
     <?php endif; ?>
 
@@ -61,4 +48,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
-
