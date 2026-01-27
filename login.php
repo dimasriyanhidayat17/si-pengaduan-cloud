@@ -1,51 +1,48 @@
 <?php
-session_start();
 require_once "config/database.php";
 
-$error = "";
+$success = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama = $_POST['nama'];
+    $isi  = $_POST['isi'];
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $stmt = $pdo->prepare("INSERT INTO pengaduan (nama, isi) VALUES (?, ?)");
+    $stmt->execute([$nama, $isi]);
 
-    // ambil data admin dari tabel admin
-    $stmt = $pdo->prepare("SELECT * FROM admin WHERE username = ?");
-    $stmt->execute([$username]);
-    $admin = $stmt->fetch();
-
-    // cek password
-    if ($admin && $password == $admin['password']) {
-
-        $_SESSION['admin'] = $admin['username'];
-
-        header("Location: list.php");
-        exit;
-
-    } else {
-        $error = "❌ Username atau Password salah!";
-    }
+    $success = "✅ Pengaduan berhasil dikirim!";
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login Admin</title>
+    <title>Input Pengaduan</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
-<div class="container">
-    <h2>Login Admin</h2>
+<div class="navbar">
+    <h1>SI PENGADUAN</h1>
+    <div>
+        <a href="login.php">Login Admin</a>
+    </div>
+</div>
 
-    <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
+<div class="container">
+    <h2>Input Pengaduan</h2>
+
+    <?php if ($success): ?>
+        <p style="color:lime;"><?= $success ?></p>
+    <?php endif; ?>
 
     <form method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
+        <label>Nama</label>
+        <input type="text" name="nama" required>
 
-        <button type="submit">Login</button>
+        <label>Isi Pengaduan</label>
+        <textarea name="isi" rows="4" required></textarea>
+
+        <button type="submit">Kirim</button>
     </form>
 </div>
 
