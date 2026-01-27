@@ -9,16 +9,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Login hanya pakai tabel admin
     $stmt = $pdo->prepare("SELECT * FROM admin WHERE username=?");
     $stmt->execute([$username]);
 
-    $user = $stmt->fetch();
+    $admin = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password'])) {
+    if ($admin && password_verify($password, $admin['password'])) {
 
-        $_SESSION['admin'] = $user['username'];
-        $_SESSION['role']  = "admin";
+        $_SESSION['admin'] = $admin['username'];
 
         header("Location: list.php");
         exit;
