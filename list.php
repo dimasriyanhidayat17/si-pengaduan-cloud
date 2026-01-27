@@ -1,19 +1,15 @@
 <?php
 session_start();
-
-/* ✅ Proteksi halaman: hanya admin boleh lihat data */
-if (!isset($_SESSION['login']) || $_SESSION['role'] != 'admin') {
+if (!isset($_SESSION['admin'])) {
     header("Location: login.php");
     exit;
 }
 
 require_once "config/database.php";
 
-/* ✅ Ambil semua pengaduan */
 $stmt = $pdo->query("SELECT * FROM pengaduan ORDER BY id DESC");
 $data = $stmt->fetchAll();
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +18,9 @@ $data = $stmt->fetchAll();
 </head>
 <body>
 
-<?php include "navbar.php"; ?>
-
+<div class="navbar">
+    <h1>SI PENGADUAN</h1>
     <div>
-        <a href="list.php">Data Pengaduan</a>
         <a href="logout.php">Logout</a>
     </div>
 </div>
@@ -40,7 +35,7 @@ $data = $stmt->fetchAll();
             <th>Isi Pengaduan</th>
         </tr>
 
-        <?php if (count($data) > 0): ?>
+        <?php if ($data): ?>
             <?php $no = 1; foreach ($data as $row): ?>
                 <tr>
                     <td><?= $no++ ?></td>
@@ -50,13 +45,11 @@ $data = $stmt->fetchAll();
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="3" align="center">Belum ada pengaduan masuk</td>
+                <td colspan="3" align="center">Belum ada pengaduan</td>
             </tr>
         <?php endif; ?>
     </table>
-
 </div>
 
 </body>
 </html>
-
